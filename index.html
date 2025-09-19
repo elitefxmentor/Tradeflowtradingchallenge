@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TradeFlow HQ Forex Challenge</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body { 
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+      background: linear-gradient(135deg, #1a2a6c 0%, #2a4b8c 100%); 
+      padding: 20px;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #333;
+    }
+    
+    .container { 
+      max-width: 700px; 
+      width: 100%;
+      margin: auto; 
+      background: #fff; 
+      padding: 30px; 
+      border-radius: 15px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .header h2 {
+      color: #1a2a6c;
+      margin-bottom: 10px;
+      font-size: 28px;
+      background: linear-gradient(90deg, #1a2a6c, #007bff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .header p {
+      color: #666;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    .event-details {
+      background: linear-gradient(135deg, #e6f2ff 0%, #cce5ff 100%);
+      padding: 20px;
+      border-radius: 10px;
+      margin: 20px 0;
+      border-left: 5px solid #007bff;
+    }
+    
+    .event-details h3 {
+      color: #1a2a6c;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .detail-item {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .detail-item strong {
+      color: #1a2a6c;
+      display: block;
+      margin-bottom: 5px;
+    }
+    
+    .progress-bar {
+      height: 6px;
+      background: #e9ecef;
+      border-radius: 5px;
+      margin-bottom: 25px;
+      overflow: hidden;
+    }
+    
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    .hidden { 
+      display: none; 
+    }
+    
+    label { 
+      display: block; 
+      margin-top: 15px; 
+      font-weight: 500;
+      color: #495057;
+    }
+    
+    input, select { 
+      width: 100%; 
+      padding: 12px 15px; 
+      margin-top: 5px; 
+      border: 1px solid #ced4da; 
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    input:focus, select:focus {
+      border-color: #007bff;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(0,123,255,0.25);
+    }
+    
+    .input-error {
+      border-color: #dc3545;
+    }
+    
+    .error-message {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .valid-message {
+      color: #28a745;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    button { 
+      margin-top: 25px; 
+      padding: 12px; 
+      width: 100%; 
+      background: #007bff; 
+      color: #fff; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+    
+    button:hover { 
+      background: #0056b3; 
+    }
+    
+    button:disabled {
+      background: #6c757d;
+      cursor: not-allowed;
+    }
+    
+    .success { 
+      color: #28a745; 
+      font-weight: bold; 
+      text-align: center; 
+      font-size: 18px;
+    }
+    
+    .fail { 
+      color: #dc3545; 
+      font-weight: bold; 
+      text-align: center; 
+      font-size: 18px;
+    }
+    
+    .social-links { 
+      text-align: center; 
+      margin-top: 25px; 
+      padding-top: 20px;
+      border-top: 1px solid #e9ecef;
+    }
+    
+    .social-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .social-link:hover {
+      background: #e9ecef;
+      color: #0056b3;
+      transform: translateY(-2px);
+    }
+    
+    .step-indicator {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .step {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #e9ecef;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 2;
+    }
+    
+    .step.active {
+      background: #007bff;
+      color: white;
+    }
+    
+    .step.completed {
+      background: #28a745;
+      color: white;
+    }
+    
+    .step-indicator::before {
+      content: '';
+      position: absolute;
+      height: 2px;
+      background: #e9ecef;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .form-navigation {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .form-navigation button {
+      margin-top: 0;
+    }
+    
+    .btn-secondary {
+      background: #6c757d;
+    }
+    
+    .btn-secondary:hover {
+      background: #5a6268;
+    }
+    
+    .broker-question {
+      margin: 15px 0;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background: #f9f9f9;
+    }
+    
+    .broker-options {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+    }
+    
+    .broker-option {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .broker-option label {
+      display: block;
+      padding: 10px;
+      background: #fff;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 5px;
+    }
+    
+    .broker-option input[type="radio"] {
+      display: none;
+    }
+    
+    .broker-option input[type="radio"]:checked + label {
+      border-color: #007bff;
+      background: #e6f2ff;
+    }
+    
+    .broker-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .broker-link {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      background: #e9f7ff;
+      border-radius: 8px;
+      text-decoration: none;
+      color: #007bff;
+      font-weight: 500;
+      transition: all 0.3s;
+    }
+    
+    .broker-link:hover {
+      background: #d1edff;
+      transform: translateY(-2px);
+    }
+    
+    .encouragement {
+      background: linear-gradient(135deg, #fff4e6 0%, #ffe8cc 100%);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 15px 0;
+      text-align: center;
+      border-left: 4px solid #ff922b;
+    }
+    
+    .encouragement p {
+      margin: 0;
+      color: #e67700;
+      font-weight: 500;
+    }
+    
+    .admin-panel {
+      margin-top: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      border: 1px solid #dee2e6;
+    }
+    
+    .admin-panel h3 {
+      color: #1a2a6c;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+    
+    .admin-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .admin-btn {
+      flex: 1;
+      padding: 10px;
+      background: #6c757d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .admin-btn.primary {
+      background: #007bff;
+    }
+    
+    .admin-btn.success {
+      background: #28a745;
+    }
+    
+    .admin-btn:hover {
+      opacity: 0.9;
+    }
+    
+    .applicants-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    
+    .applicants-table th, 
+    .applicants-table td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #dee2e6;
+    }
+    
+    .applicants-table th {
+      background: #e9ecef;
+    }
+    
+    .applicants-table tr:nth-child(even) {
+      background: #f8f9fa;
+    }
+    
+    .qualified {
+      background: #d4edda !important;
+    }
+    
+    .disqualified {
+      background: #f8d7da !important;
+    }
+    
+    .admin-access {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+    
+    .admin-key {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #6c757d;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+    
+    .admin-login {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    
+    .login-form {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+    }
+    
+    .login-form h3 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #1a2a6c;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+      
+      body {
+        padding: 10px;
+      }
+      
+      .social-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .broker-links {
+        flex-direction: column;
+      }
+      
+      .broker-options {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .details-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .admin-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>TradeFlow HQ Forex Challenge Registration</h2>
+      <p>Join our FREE 2-week intensive forex trading challenge and make your first withdrawal!</p>
+    </div>
+    
+    <div class="event-details">
+      <h3>📅 Challenge Details</h3>
+      <p><strong>When:</strong> September 28th - October 11th, 2023</p>
+      <p><strong>Schedule:</strong> Sundays, Tuesdays, Thursdays, and Saturdays (9-10 PM)</p>
+      
+      <div class="details-grid">
+        <div class="detail-item">
+          <strong>Week 1</strong>
+          <span>Training Classes</span>
+        </div>
+        <div class="detail-item">
+          <strong>Week 2</strong>
+          <span>Live Trading</span>
+        </div>
+        <div class="detail-item">
+          <strong>Goal</strong>
+          <span>First Withdrawal</span>
+        </div>
+        <div class="detail-item">
+          <strong>Investment</strong>
+          <span>$20 Live Account</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="encouragement">
+      <p>🚀 Ready to make your first withdrawal in hard currency? Join us for this transformative experience!</p>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-bar">
+      <div class="progress" id="progress"></div>
+    </div>
+    
+    <!-- Step indicator -->
+    <div class="step-indicator">
+      <div class="step active" id="step1Indicator">1</div>
+      <div class="step" id="step2Indicator">2</div>
+      <div class="step" id="step3Indicator">3</div>
+    </div>
+
+    <!-- STEP 1: Name + Email -->
+    <form id="step1Form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required placeholder="Enter your full name">
+      <div class="error-message" id="nameError"></div>
+      
+      <label for="email">Email Address</label>
+      <input type="email" id="email" required placeholder="Enter your email address">
+      <div class="error-message" id="emailError"></div>
+      <div class="valid-message" id="emailValid"></div>
+
+      <div class="social-links">
+        <p>👉 Stay connected with TradeFlow HQ:</p>
+        <div class="social-grid">
+          <a href="https://www.facebook.com/share/17jeFZibBE/" class="social-link" target="_blank">Facebook</a>
+          <a href="https://www.tiktok.com/@tradeflowheadquarters?_t=ZM-8zlrlTQ5bt8&_r=1" class="social-link" target="_blank">TikTok</a>
+          <a href="#" class="social-link" target="_blank">Instagram</a>
+          <a href="#" class="social-link" target="_blank">YouTube</a>
+        </div>
+      </div>
+
+      <button type="submit" id="step1Button">Continue to Application</button>
+    </form>
+
+    <!-- STEP 2: Questionnaire -->
+    <form id="step2Form" class="hidden">
+      <label for="experience">1. Level of trading experience</label>
+      <select id="experience" required>
+        <option value="">-- Select --</option>
+        <option>Beginner (0-6 months)</option>
+        <option>Intermediate (6 months - 2 years)</option>
+        <option>Advanced (2+ years)</option>
+      </select>
+      <div class="error-message" id="experienceError"></div>
+
+      <div class="broker-question">
+        <label>2. Do you have an account with XM Global?</label>
+        <div class="broker-options">
+          <div class="broker-option">
+            <input type="radio" id="xmGlobalYes" name="xmGlobalAccount" value="yes">
+            <label for="xmGlobalYes">Yes</label>
+          </div>
+          <div class="broker-option">
+            <input type="radio" id="xmGlobalNo" name="xmGlobalAccount" value="no">
+            <label for="xmGlobalNo">No</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="broker-question">
+        <label>3. Do you have an account with Deriv?</label>
+        <div class="broker-options">
+          <div class="broker-option">
+            <input type="radio" id="derivYes" name="derivAccount" value="yes">
+            <label for="derivYes">Yes</label>
+          </div>
+          <div class="broker-option">
+            <input type="radio" id="derivNo" name="derivAccount" value="no">
+            <label for="derivNo">No</label>
+          </div>
+        </div>
+      </div>
+      <div class="error-message" id="brokersError"></div>
+
+      <div class="encouragement">
+        <p>💰 The $20 deposit is for your LIVE trading account where you'll make your first profits!</p>
+      </div>
+
+      <label for="canDeposit">4. Can you afford to deposit at least $20 for live trading?</label>
+      <select id="canDeposit" required>
+        <option value="">-- Select --</option>
+        <option value="yes">Yes, I'm ready to invest in my trading journey</option>
+        <option value="no">Not at this time</option>
+      </select>
+      <div class="error-message" id="canDepositError"></div>
+
+      <label for="availability">5. Will you be available for the challenge sessions?</label>
+      <select id="availability" required>
+        <option value="">-- Select --</option>
+        <option value="yes">Yes, I'll attend all sessions (Sun, Tue, Thu, Sat 9-10 PM)</option>
+        <option value="maybe">I might miss some sessions</option>
+        <option value="no">I won't be available for most sessions</option>
+      </select>
+      <div class="error-message" id="availabilityError"></div>
+
+      <div class="form-navigation">
+        <button type="button" id="backToStep1" class="btn-secondary">Back</button>
+        <button type="submit" id="step2Button">Submit Application</button>
+      </div>
+    </form>
+
+    <!-- STEP 3: Result -->
+    <div id="result" class="hidden"></div>
+    
+    <!-- Admin Panel (Hidden by default) -->
+    <div id="adminPanel" class="admin-panel hidden">
+      <h3>Admin Panel</h3>
+      <p>Access applicant data and export qualified emails</p>
+      
+      <div class="admin-actions">
+        <button class="admin-btn primary" id="viewApplicants">View All Applicants</button>
+        <button class="admin-btn success" id="exportEmails">Export Qualified Emails</button>
+        <button class="admin-btn" id="clearData">Clear All Data</button>
+        <button class="admin-btn" id="hideAdmin">Hide Admin Panel</button>
+      </div>
+      
+      <div id="applicantsContainer" class="hidden">
+        <h4>Applicant List</h4>
+        <table class="applicants-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Experience</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="applicantsTable">
+            <!-- Applicant data will be inserted here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Admin access key (hidden in corner) -->
+  <div class="admin-access">
+    <div class="admin-key" id="adminKey">A</div>
+  </div>
+
+  <!-- Admin login form (hidden by default) -->
+  <div id="adminLogin" class="admin-login hidden">
+    <div class="login-form">
+      <h3>Admin Access</h3>
+      <label for="adminPassword">Password:</label>
+      <input type="password" id="adminPassword" placeholder="Enter admin password">
+      <div class="error-message" id="loginError"></div>
+      <button type="button" id="loginButton" style="margin-top: 15px;">Access Admin Panel</button>
+      <button type="button" id="cancelLogin" class="btn-secondary" style="margin-top: 10px;">Cancel</button>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const step1Form = document.getElementById("step1Form");
+    const step2Form = document.getElementById("step2Form");
+    const resultDiv = document.getElementById("result");
+    const progressBar = document.getElementById("progress");
+    const step1Indicator = document.getElementById("step1Indicator");
+    const step2Indicator = document.getElementById("step2Indicator");
+    const step3Indicator = document.getElementById("step3Indicator");
+    const backToStep1Button = document.getElementById("backToStep1");
+    const step1Button = document.getElementById("step1Button");
+    const step2Button = document.getElementById("step2Button");
+    const adminPanel = document.getElementById("adminPanel");
+    const adminKey = document.getElementById("adminKey");
+    const adminLogin = document.getElementById("adminLogin");
+    const adminPassword = document.getElementById("adminPassword");
+    const loginButton = document.getElementById("loginButton");
+    const cancelLogin = document.getElementById("cancelLogin");
+    const viewApplicantsBtn = document.getElementById("viewApplicants");
+    const exportEmailsBtn = document.getElementById("exportEmails");
+    const clearDataBtn = document.getElementById("clearData");
+    const hideAdminBtn = document.getElementById("hideAdmin");
+    const applicantsContainer = document.getElementById("applicantsContainer");
+    const applicantsTable = document.getElementById("applicantsTable");
+    const loginError = document.getElementById("loginError");
+
+    let userData = {}; // store temporary user info
+    let allApplicants = []; // store all applicants
+
+    // Admin password (you can change this to whatever you want)
+    const ADMIN_PASSWORD = "tradeflow2023";
+
+    // Load applicants from localStorage on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedApplicants = localStorage.getItem('forexChallengeApplicants');
+      if (savedApplicants) {
+        allApplicants = JSON.parse(savedApplicants);
+      }
+    });
+
+    // Update progress bar
+    function updateProgress(percent) {
+      progressBar.style.width = percent + '%';
+    }
+
+    // Validate email format with comprehensive checks
+    function isValidEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!re.test(email)) return false;
+      
+      // Additional checks for valid email format
+      const parts = email.split('@');
+      const domain = parts[1];
+      
+      // Check for consecutive dots in domain
+      if (domain.includes('..')) return false;
+      
+      // Check for valid domain extension (2-6 letters)
+      const domainParts = domain.split('.');
+      const tld = domainParts[domainParts.length - 1];
+      if (!tld || tld.length < 2 || tld.length > 6 || !/^[a-zA-Z]+$/.test(tld)) return false;
+      
+      return true;
+    }
+
+    // Validate name (at least 2 characters)
+    function isValidName(name) {
+      return name.trim().length >= 2;
+    }
+
+    // Check if email already exists in localStorage
+    function checkEmailExists(email) {
+      return allApplicants.some(applicant => applicant.email === email);
+    }
+
+    // Show error message for a field
+    function showError(fieldId, message) {
+      const errorElement = document.getElementById(fieldId + 'Error');
+      const validElement = document.getElementById(fieldId + 'Valid');
+      const inputElement = document.getElementById(fieldId);
+      
+      if (errorElement) errorElement.textContent = message;
+      if (validElement) validElement.textContent = '';
+      if (inputElement) inputElement.classList.add('input-error');
+    }
+
+    // Show valid message for a field
+    function showValid(fieldId, message) {
+      const errorElement = document.getElementById(fieldId + 'Error');
+      const validElement = document.getElementById(fieldId + 'Valid');
+      const inputElement = document.getElementById(fieldId);
+      
+      if (validElement) validElement.textContent = message;
+      if (errorElement) errorElement.textContent = '';
+      if (inputElement) inputElement.classList.remove('input-error');
+    }
+
+    // Clear messages for a field
+    function clearMessages(fieldId) {
+      const errorElement = document.getElementById(fieldId + 'Error');
+      const validElement = document.getElementById(fieldId + 'Valid');
+      const inputElement = document.getElementById(fieldId);
+      
+      if (errorElement) errorElement.textContent = '';
+      if (validElement) validElement.textContent = '';
+      if (inputElement) inputElement.classList.remove('input-error');
+    }
+
+    // Real-time email validation
+    document.getElementById('email').addEventListener('blur', function() {
+      const email = this.value.trim();
+      if (email === '') {
+        clearMessages('email');
+        return;
+      }
+      
+      if (!isValidEmail(email)) {
+        showError('email', 'Please enter a valid email address (e.g., yourname@example.com)');
+      } else {
+        showValid('email', '✓ Valid email address');
+      }
+    });
+
+    // Real-time name validation
+    document.getElementById('name').addEventListener('blur', function() {
+      const name = this.value.trim();
+      if (name === '') {
+        clearMessages('name');
+        return;
+      }
+      
+      if (!isValidName(name)) {
+        showError('name', 'Please enter your full name (at least 2 characters)');
+      } else {
+        showValid('name', '✓ Valid name');
+      }
+    });
+
+    // Step 1
+    step1Form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      
+      // Reset errors
+      clearMessages('name');
+      clearMessages('email');
+      
+      let isValid = true;
+      
+      // Validate name
+      if (!isValidName(name)) {
+        showError('name', 'Please enter your full name (at least 2 characters)');
+        isValid = false;
+      }
+      
+      // Validate email
+      if (!isValidEmail(email)) {
+        showError('email', 'Please enter a valid email address (e.g., yourname@example.com)');
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      // Show loading state
+      step1Button.innerHTML = '<span class="loader"></span> Checking...';
+      step1Button.disabled = true;
+      
+      // Check if email already exists
+      const emailExists = checkEmailExists(email);
+      
+      if (emailExists) {
+        showError('email', 'This email is already registered');
+        step1Button.innerHTML = 'Continue to Application';
+        step1Button.disabled = false;
+        return;
+      }
+      
+      userData.name = name;
+      userData.email = email;
+      userData.timestamp = new Date();
+
+      step1Form.classList.add("hidden");
+      step2Form.classList.remove("hidden");
+      
+      // Update progress indicators
+      updateProgress(50);
+      step1Indicator.classList.remove('active');
+      step1Indicator.classList.add('completed');
+      step2Indicator.classList.add('active');
+      
+      // Reset button state
+      step1Button.innerHTML = 'Continue to Application';
+      step1Button.disabled = false;
+    });
+
+    // Back button from step 2 to step 1
+    backToStep1Button.addEventListener("click", function() {
+      step2Form.classList.add("hidden");
+      step1Form.classList.remove("hidden");
+      
+      // Update progress indicators
+      updateProgress(0);
+      step2Indicator.classList.remove('active');
+      step1Indicator.classList.add('active');
+    });
+
+    // Step 2
+    step2Form.addEventListener("submit", function(e) {
+      e.preventDefault();
+      
+      const experience = document.getElementById("experience").value;
+      const xmGlobalAccount = document.querySelector('input[name="xmGlobalAccount"]:checked');
+      const derivAccount = document.querySelector('input[name="derivAccount"]:checked');
+      const canDeposit = document.getElementById("canDeposit").value;
+      const availability = document.getElementById("availability").value;
+      
+      // Reset errors
+      clearMessages('experience');
+      clearMessages('brokers');
+      clearMessages('canDeposit');
+      clearMessages('availability');
+      
+      let isValid = true;
+      
+      // Validate all fields
+      if (!experience) {
+        showError('experience', 'Please select your experience level');
+        isValid = false;
+      }
+      
+      if (!xmGlobalAccount) {
+        showError('brokers', 'Please indicate if you have an XM Global account');
+        isValid = false;
+      }
+      
+      if (!derivAccount) {
+        showError('brokers', 'Please indicate if you have a Deriv account');
+        isValid = false;
+      }
+      
+      if (!canDeposit) {
+        showError('canDeposit', 'Please select an option');
+        isValid = false;
+      }
+      
+      if (!availability) {
+        showError('availability', 'Please select your availability');
+        isValid = false;
+      }
+      
+      if (!isValid) return;
+      
+      userData.experience = experience;
+      userData.xmGlobalAccount = xmGlobalAccount.value;
+      userData.derivAccount = derivAccount.value;
+      userData.canDeposit = canDeposit;
+      userData.availability = availability;
+      
+      // QUALIFICATION LOGIC:
+      // User is disqualified if they have accounts with BOTH brokers
+      userData.qualified = !(xmGlobalAccount.value === 'yes' && derivAccount.value === 'yes');
+      userData.status = userData.qualified ? 'Qualified' : 'Disqualified';
+      
+      // Add to applicants list
+      allApplicants.push(userData);
+      
+      // Save to localStorage
+      localStorage.setItem('forexChallengeApplicants', JSON.stringify(allApplicants));
+      
+      // Show loading state
+      step2Button.innerHTML = '<span class="loader"></span> Processing...';
+      step2Button.disabled = true;
+      
+      // Determine which brokers they need to register with
+      let neededBrokers = [];
+      if (xmGlobalAccount.value === 'no') neededBrokers.push('XM Global');
+      if (derivAccount.value === 'no') neededBrokers.push('Deriv');
+      
+      // Update progress indicators
+      updateProgress(100);
+      step2Indicator.classList.remove('active');
+      step2Indicator.classList.add('completed');
+      step3Indicator.classList.add('active');
+      
+      // Show appropriate result based on qualification
+      if (!userData.qualified) {
+        // Disqualified - has both broker accounts
+        resultDiv.innerHTML = `
+          <div class="fail">
+            <p>❌ Sorry ${userData.name}, you don't qualify for this challenge.</p>
+            <p>Spots are full.</p>
+          </div>
+          <p>But don't worry! You can still benefit from our resources:</p>
+          <div class="social-links">
+            <p>Follow TradeFlow HQ for updates, tips, and tools:</p>
+            <div class="social-grid">
+              <a href="https://www.facebook.com/share/17jeFZibBE/" class="social-link" target="_blank">Facebook</a>
+              <a href="https://www.tiktok.com/@tradeflowheadquarters?_t=ZM-8zlrlTQ5bt8&_r=1" class="social-link" target="_blank">TikTok</a>
+              <a href="#" class="social-link" target="_blank">Instagram</a>
+              <a href="#" class="social-link" target="_blank">YouTube</a>
+            </div>
+          </div>
+        `;
+      } else {
+        // Qualified - doesn't have both broker accounts
+        resultDiv.innerHTML = `
+          <div class="success">
+            <p>🎉 Congratulations ${userData.name}! You qualify for the TradeFlow HQ Forex Challenge!</p>
+            <p>Get ready to make your first withdrawal in hard currency! 💵</p>
+          </div>
+          <p><strong>Challenge Details:</strong></p>
+          <ul style="margin: 15px 0 15px 20px;">
+            <li><strong>Date:</strong> September 28th - October 11th, 2023</li>
+            <li><strong>Schedule:</strong> Sundays, Tuesdays, Thursdays, Saturdays (9-10 PM)</li>
+            <li><strong>Week 1:</strong> Training classes with proven strategies</li>
+            <li><strong>Week 2:</strong> Live trading with personal guidance</li>
+            <li><strong>Goal:</strong> Make your first withdrawal by the end of the challenge!</li>
+          </ul>
+          
+          ${neededBrokers.length > 0 ? `
+          <p><strong>Next Step:</strong> Open your trading account${neededBrokers.length > 1 ? 's' : ''}:</p>
+          <div class="broker-links">
+            ${neededBrokers.includes('XM Global') ? '<a href="https://affs.click/Ea3Ba" class="broker-link" target="_blank">👉 Open XM Global Account</a>' : ''}
+            ${neededBrokers.includes('Deriv') ? '<a href="https://track.deriv.com/_GJgHtR89syyNhxmBqQyZL2Nd7ZgqdRLk/1/" class="broker-link" target="_blank">👉 Open Deriv Account</a>' : ''}
+          </div>
+          ` : ''}
+          
+          <div class="social-links">
+            <a href="https://chat.whatsapp.com/EA3rkYiRuaC74y8djP1bxB" class="social-link" target="_blank" style="display: block; margin-top: 20px; background: #25D366; color: white;">
+              📱 Join WhatsApp Group Now
+            </a>
+            <p style="margin-top: 15px;"><strong>Next Steps:</strong></p>
+            <ol style="margin: 10px 0 10px 20px; text-align: left;">
+              <li>Join our WhatsApp group using the link above</li>
+              ${neededBrokers.length > 0 ? `<li>Open your ${neededBrokers.join(' and ')} account${neededBrokers.length > 1 ? 's' : ''}</li>` : ''}
+              <li>Prepare your $20 trading capital</li>
+              <li>Wait for challenge start date confirmation</li>
+            </ol>
+            <p><em>We're excited to help you make your first withdrawal!</em></p>
+          </div>
+        `;
+      }
+      
+      step2Form.classList.add("hidden");
+      resultDiv.classList.remove("hidden");
+      
+      // Reset button state
+      step2Button.innerHTML = 'Submit Application';
+      step2Button.disabled = false;
+    });
+
+    // Admin access key click handler
+    adminKey.addEventListener('click', function() {
+      adminLogin.style.display = 'flex';
+    });
+    
+    // Cancel login
+    cancelLogin.addEventListener('click', function() {
+      adminLogin.style.display = 'none';
+      adminPassword.value = '';
+      loginError.textContent = '';
+    });
+    
+    // Login button click
+    loginButton.addEventListener('click', function() {
+      if (adminPassword.value === ADMIN_PASSWORD) {
+        adminLogin.style.display = 'none';
+        adminPanel.classList.remove('hidden');
+        adminPassword.value = '';
+        loginError.textContent = '';
+      } else {
+        loginError.textContent = 'Incorrect password';
+      }
+    });
+    
+    // Hide admin panel
+    hideAdminBtn.addEventListener('click', function() {
+      adminPanel.classList.add('hidden');
+      applicantsContainer.classList.add('hidden');
+    });
+    
+    // View applicants
+    viewApplicantsBtn.addEventListener('click', function() {
+      applicantsContainer.classList.toggle('hidden');
+      
+      if (!applicantsContainer.classList.contains('hidden')) {
+        displayApplicants();
+      }
+    });
+    
+    // Display applicants in the table
+    function displayApplicants() {
+      applicantsTable.innerHTML = '';
+      
+      if (allApplicants.length === 0) {
+        applicantsTable.innerHTML = '<tr><td colspan="5" style="text-align: center;">No applicants yet</td></tr>';
+        return;
+      }
+      
+      allApplicants.forEach(applicant => {
+        const row = document.createElement('tr');
+        row.classList.add(applicant.qualified ? 'qualified' : 'disqualified');
+        
+        row.innerHTML = `
+          <td>${applicant.name}</td>
+          <td>${applicant.email}</td>
+          <td>${applicant.experience}</td>
+          <td>${applicant.qualified ? 'Qualified' : 'Disqualified'}</td>
+          <td>${new Date(applicant.timestamp).toLocaleDateString()}</td>
+        `;
+        
+        applicantsTable.appendChild(row);
+      });
+    }
+    
+    // Export qualified emails
+    exportEmailsBtn.addEventListener('click', function() {
+      const qualifiedApplicants = allApplicants.filter(applicant => applicant.qualified);
+      
+      if (qualifiedApplicants.length === 0) {
+        alert('No qualified applicants to export');
+        return;
+      }
+      
+      const emailList = qualifiedApplicants.map(applicant => applicant.email).join('\n');
+      
+      // Create a blob and download link
+      const blob = new Blob([emailList], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'qualified_emails.txt';
+      document.body.appendChild(a);
+      a.click();
+      
+      // Clean up
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+      
+      alert(`Exported ${qualifiedApplicants.length} qualified emails`);
+    });
+    
+    // Clear all data
+    clearDataBtn.addEventListener('click', function() {
+      if (confirm('Are you sure you want to clear all applicant data? This cannot be undone.')) {
+        allApplicants = [];
+        localStorage.removeItem('forexChallengeApplicants');
+        applicantsTable.innerHTML = '<tr><td colspan="5" style="text-align: center;">No applicants yet</td></tr>';
+        alert('All data has been cleared');
+      }
+    });
+
+    // Clear errors when inputs change
+    document.querySelectorAll('input, select').forEach(input => {
+      input.addEventListener('input', function() {
+        clearMessages(this.id);
+      });
+    });
+  </script>
+</body>
+</html>
