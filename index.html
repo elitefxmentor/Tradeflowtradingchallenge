@@ -638,10 +638,24 @@
             templateInput.value = 'table';
             submitForm.appendChild(templateInput);
             
+            // Improved email formatting with HTML line breaks
             const autoresponseInput = document.createElement('input');
             autoresponseInput.type = 'hidden';
             autoresponseInput.name = '_autoresponse';
-            autoresponseInput.value = "Congratulations! You are qualified for the  Tradeflow HQ's    Free Forex Training!                   Please join our WhatsApp group using this link:          https://chat.whatsapp.com/EA3rkYiRuaC74y8djP1bxB.                                     We'll be starting our training on September 28th, 2025. I'll personally guide you through Week 1 of intensive training, followed by live trading sessions in Week 2.        Looking forward to helping you make your first withdrawal by the end of the training!           Best regards, Benjamin Orimba - Tradeflow HQ";
+            autoresponseInput.value = `Thank you for registering for Tradeflow HQ's Free Forex Training!.
+
+You've been accepted into our program! Please join our WhatsApp group using this link:
+https://chat.whatsapp.com/EA3rkYiRuaC74y8djP1bxB
+
+We'll be starting our training on September 28th, 2025. I'll personally guide you through:
+- Week 1: Intensive training
+- Week 2: Live trading sessions
+
+Looking forward to helping you make your first withdrawal by the end of the training!
+
+Best regards,
+Benjamin Orimba
+Tradeflow HQ`;
             submitForm.appendChild(autoresponseInput);
             
             // Add user data
