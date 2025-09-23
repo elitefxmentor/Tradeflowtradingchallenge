@@ -550,7 +550,7 @@
             name: '',
             email: '',
             derivAccount: '',
-            xmAccount: '',
+            FBSAccount: '',
             deposit: '',
             dedication: '',
             experience: ''
@@ -609,19 +609,19 @@
         // Validate qualification form
         function validateQualification() {
             const derivAccount = document.querySelector('input[name="derivAccount"]:checked');
-            const xmAccount = document.querySelector('input[name="xmAccount"]:checked');
+            const FBSAccount = document.querySelector('input[name="FBSAccount"]:checked');
             const deposit = document.querySelector('input[name="deposit"]:checked');
             const dedication = document.querySelector('input[name="dedication"]:checked');
             const experience = document.querySelector('input[name="experience"]:checked');
             
-            if (!derivAccount || !xmAccount || !deposit || !dedication || !experience) {
+            if (!derivAccount || !FBSAccount || !deposit || !dedication || !experience) {
                 alert('Please answer all questions');
                 return;
             }
             
             // Save user data
             userData.derivAccount = derivAccount.value;
-            userData.xmAccount = xmAccount.value;
+            userData.FBSAccount = FBSAccount.value;
             userData.deposit = deposit.value;
             userData.dedication = dedication.value;
             userData.experience = experience.value;
@@ -632,7 +632,7 @@
             submitBtn.innerHTML = '<span class="loading"></span> Processing...';
             
             // Check qualification criteria
-            if (derivAccount.value === 'yes' && xmAccount.value === 'yes') {
+            if (derivAccount.value === 'yes' && FBSAccount.value === 'yes') {
                 // Disqualified - has accounts with both brokers
                 setTimeout(() => {
                     nextStep(2, 4);
@@ -653,7 +653,7 @@
                 email: userData.email,
                 qualification_status: isQualified ? 'Qualified' : 'Not Qualified',
                 derivAccount: userData.derivAccount,
-                xmAccount: userData.xmAccount,
+                FBSAccount: userData.FBSAccount,
                 deposit: userData.deposit,
                 dedication: userData.dedication,
                 experience: userData.experience,
